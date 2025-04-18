@@ -1,0 +1,7 @@
+<div class="spr-search-result" *ngFor="let item of sresult" >
+  <div style="display: flex; gap: 10px;">
+    <a *ngFor="let catalog of item.catalog" (click)="open(catalog)"><span [innerHTML]="item.body?.title||item.title"></span></a>
+  </div>
+  <!-- <div [innerHTML]="item.body.title"></div> -->
+  <div [innerHTML]="item.body?.content||item.data"></div>
+</div>

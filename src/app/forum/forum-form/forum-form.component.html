@@ -1,0 +1,21 @@
+<form [formGroup]="fg" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>标题</mat-label>
+    <input matInput placeholder="请输入标题" formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>内容</mat-label>
+    <textarea matInput placeholder="请输入内容" formControlName="description"></textarea>
+  </mat-form-field>
+  <app-filter-tree
+        [checklistSelection]="checklistSelection"
+        [treeData]="treeData"
+        [checkedIds]="checkedIds"
+        [disabled]="fg.disabled"
+      ></app-filter-tree>
+    <mat-dialog-actions>
+      <button type="button" mat-button mat-dialog-close>取消</button>
+      <button mat-button cdkFocusInitial>确定</button>
+    </mat-dialog-actions>
+</form>

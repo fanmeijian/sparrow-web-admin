@@ -1,0 +1,21 @@
+<form [formGroup]="formGroup">
+  <div class="spr-toolbar-container">
+    <button mat-raised-button (click)="submit()" color="primary">保存</button>
+
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>规则名称</mat-label>
+    <input type="text" matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>规则描述</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <div class="editor-container" #editorContainer>
+    规则内容
+  </div>
+</form>
+
+

@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>关联用户</h1>
+<mat-dialog-content>
+  <app-user-selection [selected]="selectedUsers"></app-user-selection>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button cdkFocusInitial color="primary" (click)="submit()">
+    确定
+  </button>
+  <button type="button" mat-button mat-dialog-close color="warn">取消</button>
+</mat-dialog-actions>

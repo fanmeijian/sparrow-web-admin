@@ -1,0 +1,13 @@
+<h3 mat-dialog-title>添加成员</h3>
+<mat-dialog-content>
+  <app-employee-selection
+    [multiple]="true"
+    [selectedItems]="employees"
+  ></app-employee-selection>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="submit()" cdkFocusInitial color="primary">
+    确定
+  </button>
+  <button mat-button mat-dialog-close color="warn">取消</button>
+</mat-dialog-actions>

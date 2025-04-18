@@ -1,0 +1,66 @@
+<div class="spr-toolbar-container">
+  <button
+    class="button"
+    mat-raised-button
+    color="primary"
+    (click)="dialog.open(ForumForm,{data: catalogId})"
+  >
+    添加
+  </button>
+
+</div>
+<mat-table
+  [dataSource]="dataSource"
+  matSort
+  matSortActive="name"
+  matSortDisableClear
+  matSortDirection="desc"
+>
+  <ng-container matColumnDef="seq" sticky>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element; let index = index">
+      {{ index + 1 }}.
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>名称</mat-header-cell>
+    <mat-cell *matCellDef="let element"
+      ><div style="display: flex; flex-direction: column">
+        <a
+          [routerLink]="['article-detail', element.id]"
+          [queryParams]="{ id: element.id }"
+        >
+          {{ element.name }}
+        </a>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="attachment">
+    <mat-header-cell *matHeaderCellDef>附件</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{element.description}}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="action" stickyEnd>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element"> </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="displayedColumns; sticky: true"
+  ></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="pageable.pageSize"
+  showFirstLastButtons
+  [length]="pageable.length"
+  (page)="onPageChange($event)"
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>

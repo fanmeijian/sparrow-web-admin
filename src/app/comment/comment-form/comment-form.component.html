@@ -1,0 +1,39 @@
+<div style="display: flex; flex-direction: column;gap: 10px;">
+  <mat-card *ngFor="let item of comments">
+    <mat-card-title>
+      <span style="font-size: 16px;">{{item.createdBy}}</span>
+    </mat-card-title>
+    <mat-card-subtitle>
+       {{item.createdDate|date: 'yyyy-MM-dd HH:mm:ss'}}
+    </mat-card-subtitle>
+    <mat-card-content>
+      {{item.comment}}
+      <lib-upload-file [attachments]="item.attachments" [disableUpload]="true"></lib-upload-file>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+
+<mat-form-field appearance="fill" style="width: 100%;margin-top: 10px;">
+  <mat-label>意见</mat-label>
+  <textarea matInput [(ngModel)]="content" rows="6"></textarea>
+</mat-form-field>
+
+<lib-upload-file [attachments]="attachments"></lib-upload-file>
+
+<button mat-button (click)="saveComment()" color="primary">保存</button>
+
+
+<mat-paginator
+  #paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="pageable.pageSize"
+  [length]="pageable.length"
+  [pageIndex]="pageable.pageIndex"
+  (page)="onPage($event)"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>

@@ -1,0 +1,35 @@
+<h3 mat-dialog-title>新增/编辑</h3>
+  <mat-dialog-content>
+    <form [formGroup]="formGroup">
+
+    <mat-form-field appearance="fill">
+      <mat-label>名称</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>代码</mat-label>
+      <input matInput formControlName="code" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>模版</mat-label>
+      <textarea matInput formControlName="templateStr" rows="10"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>查询语句</mat-label>
+      <textarea matInput formControlName="hsql" rows="5"></textarea>
+    </mat-form-field>
+
+
+  </form>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button cdkFocusInitial color="primary" (click)="submit()">
+      确定
+    </button>
+    <button type="button" mat-button mat-dialog-close color="warn">取消</button>
+  </mat-dialog-actions>

@@ -1,0 +1,23 @@
+<div class="spr-toolbar-container">
+  <button mat-raised-button (click)="window.history.back()" color="primary">
+    返回
+  </button>
+  <button
+    mat-flat-button
+    libPgelPermission="btn:contract:new"
+    color="primary"
+    routerLink="/form-data-create"
+    [queryParams]="{ formId: sparrowFormData.formId, id: sparrowFormData.id }"
+  >
+    编辑
+  </button>
+</div>
+<formio
+  #formIo
+  [form]="form"
+  [options]="formOptions"
+  [viewOnly]="true"
+  [readOnly]="true"
+  [submission]="formData"
+></formio>
+

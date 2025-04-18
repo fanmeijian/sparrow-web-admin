@@ -1,0 +1,94 @@
+<div class="spr-toolbar-container">
+  <button mat-raised-button color="primary" routerLink="../notice-form">新增</button>
+</div>
+<div class="spr-table-container">
+  <mat-table [dataSource]="dataSource" class="spr-table">
+    <ng-container matColumnDef="seq">
+      <mat-header-cell *matHeaderCellDef>序号</mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ index + 1 }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stat">
+      <mat-header-cell *matHeaderCellDef>状态</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.stat }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>用户</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.createdBy }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef>标题</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>方向</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.direction }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef>时间</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.createdDate | date : "yyyy-MM-dd HH:mm:ss" }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            (click)="updateStat(element.id,'TOP1')"
+          >
+            发布
+          </button>
+          <button
+            mat-menu-item
+            (click)="updateStat(element.id,'Archived')"
+          >
+            下架
+          </button>
+          <button
+            mat-menu-item
+            (click)="delete(element.id)"
+          >
+            删除
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: true"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>
+
+<mat-paginator
+  #paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="pageable.pageSize"
+  [length]="pageable.length"
+  [pageIndex]="pageable.pageIndex"
+  (page)="onPage($event)"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>

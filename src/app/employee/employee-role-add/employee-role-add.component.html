@@ -1,0 +1,15 @@
+<h3 mat-dialog-title>新增/编辑</h3>
+
+<mat-dialog-content class="mat-typography">
+  <app-role-selection
+    [multiple]="true"
+    [selectedItems]="roles"
+  ></app-role-selection>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="submit()" cdkFocusInitial color="primary">
+    确定
+  </button>
+  <button mat-button mat-dialog-close color="warn">取消</button>
+</mat-dialog-actions>

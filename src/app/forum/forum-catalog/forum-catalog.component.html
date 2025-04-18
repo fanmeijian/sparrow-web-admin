@@ -1,0 +1,55 @@
+<div class="spr-toolbar-container">
+  <button
+    class="button"
+    mat-raised-button
+    color="primary"
+    (click)="newCatalog()"
+  >
+    新增分类
+  </button>
+</div>
+<div class="left-tree-right-content-container">
+  <div>
+    <div
+      style="width: 100%; color: grey; text-align: center"
+      *ngIf="dataSource.data.length == 0"
+    >
+      尚无数据<br />
+    </div>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        <span
+          [routerLink]="[node.id]"
+          routerLinkActive="tree-node-name-selected"
+          >{{ node.name }}</span
+        >
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node
+        *matTreeNodeDef="let node; when: hasChild"
+        matTreeNodePadding
+      >
+        <button
+          mat-icon-button
+          matTreeNodeToggle
+          [attr.aria-label]="'Toggle ' + node.name"
+        >
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        <span
+          [routerLink]="[node.id]"
+          routerLinkActive="tree-node-name-selected"
+          >{{ node.name }}</span
+        >
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+  <div style="padding: 10px">
+    <router-outlet></router-outlet>
+  </div>
+</div>

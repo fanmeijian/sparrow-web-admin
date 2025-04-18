@@ -1,0 +1,15 @@
+
+<mat-card>
+  <mat-card-title>
+    <span style="font-size: 16px;">{{feedback.createdBy}}</span>
+  </mat-card-title>
+  <mat-card-subtitle>
+     {{feedback.createdDate|date: 'yyyy-MM-dd HH:mm:ss'}}
+  </mat-card-subtitle>
+  <mat-card-content>
+    {{feedback.content}}
+    <lib-upload-file [attachments]="feedback.attachments" [disableUpload]="true"></lib-upload-file>
+  </mat-card-content>
+</mat-card>
+<br />
+<app-comment-form [bizCommentId]="feedback.commentId" (onCommentSaved)="onCommentSaved($event)"></app-comment-form>

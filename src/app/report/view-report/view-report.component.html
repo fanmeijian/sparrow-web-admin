@@ -1,0 +1,7 @@
+<!-- <button mat-raised-button (click)="export('PDF')" color="primary">导出pdf</button>
+<button mat-raised-button (click)="export('WORD')" color="primary">导出word</button>
+<button mat-raised-button (click)="export('CSV')" color="primary">导出csv</button>
+<button mat-raised-button (click)="export('EXCEL')" color="primary">导出excel</button> -->
+<app-report-export-toolbar [filters]="filters" [templateId]="templateId"></app-report-export-toolbar>
+<app-search-filter [filters]="filters" [fields]="fields" (applyFilter)="applyFilter($event)"></app-search-filter>
+<div [innerHtml]="reportHtmlStr"></div>

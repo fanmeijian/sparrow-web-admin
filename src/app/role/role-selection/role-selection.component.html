@@ -1,0 +1,69 @@
+<mat-chip-list #chipList aria-label="Fruit selection">
+  <mat-chip *ngFor="let fruit of selectedItems" (removed)="remove(fruit)">
+    {{ fruit.name }}
+    <button matChipRemove>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-chip>
+</mat-chip-list>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    <img
+      src="/assets/role.svg"
+      *ngIf="node.item.type === 'ROLE'"
+      width="12px"
+      height="12px"
+    />
+    <span
+      class="node-item"
+      *ngIf="node.item.type === 'ROLE'"
+      style="cursor: pointer"
+      (click)="select(node.item)"
+      >[{{ node.item.code }}]{{ node.item.name }}</span
+    >
+
+    <span *ngIf="node.item.type != 'ROLE'" style="color: grey"
+      >[{{ node.item.code }}]{{ node.item.name }}</span
+    >
+  </mat-tree-node>
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    <button
+      mat-icon-button
+      [attr.aria-label]="'Toggle ' + node.item"
+      matTreeNodeToggle
+    >
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+      </mat-icon>
+    </button>
+    <!-- <span
+      [style]="node.item.type != 'ROLE' ? 'color:grey;' : 'cursor: pointer;'"
+      (click)="select(node.item)"
+      >[{{ node.item.code }}]{{ node.item.name }}</span
+    > -->
+    <img
+      src="/assets/role.svg"
+      *ngIf="node.item.type === 'ROLE'"
+      width="12px"
+      height="12px"
+    />
+    <span
+      class="node-item"
+      *ngIf="node.item.type === 'ROLE'"
+      style="cursor: pointer"
+      (click)="select(node.item)"
+      >[{{ node.item.code }}]{{ node.item.name }}</span
+    >
+
+    <span *ngIf="node.item.type != 'ROLE'" style="color: grey"
+      >[{{ node.item.code }}]{{ node.item.name }}</span
+    >
+    <mat-progress-bar
+      *ngIf="node.isLoading"
+      mode="indeterminate"
+      class="example-tree-progress-bar"
+    ></mat-progress-bar>
+  </mat-tree-node>
+</mat-tree>

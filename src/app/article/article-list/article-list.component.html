@@ -1,0 +1,84 @@
+<div class="spr-toolbar-container">
+  <button
+    class="button"
+    mat-raised-button
+    color="primary"
+    [routerLink]="['article-form']"
+  >
+    添加文章
+  </button>
+</div>
+<mat-table
+  [dataSource]="dataSource"
+  matSort
+  matSortActive="name"
+  matSortDisableClear
+  matSortDirection="desc"
+>
+  <ng-container matColumnDef="seq" sticky>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element; let index = index">
+      {{ index + 1 }}.
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>名称</mat-header-cell>
+    <mat-cell *matCellDef="let element"
+      ><div style="display: flex; flex-direction: column">
+        <a
+          [routerLink]="['article-form', element.id]"
+          [queryParams]="{ id: element.id }"
+        >
+          {{ element.title }}
+        </a>
+        <app-base-op-log-column [element]="element"></app-base-op-log-column>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="attachment">
+    <mat-header-cell *matHeaderCellDef>附件</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <!-- <div *ngFor="let item of element.attachments">
+        <a [href]="item.url" target="_blank">{{ item.name }}</a>
+      </div> -->
+
+      <lib-upload-file
+        [attachments]="element.attachments"
+        [multiple]="true"
+        [disableUpload]="true"
+      >
+      </lib-upload-file>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="action" stickyEnd>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <button mat-stroked-button color="primary">编辑</button>
+      <button mat-stroked-button color="warn" (click)="deleteArticle(element)">
+        删除
+      </button>
+      <app-entity-log
+        [id]="element?.id"
+        [modelId]="element?.modelName"
+      ></app-entity-log>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="displayedColumns; sticky: true"
+  ></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="pageable.pageSize"
+  showFirstLastButtons
+  [length]="pageable.length"
+  (page)="onPageChange($event)"
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>

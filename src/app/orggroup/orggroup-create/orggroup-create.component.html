@@ -1,0 +1,29 @@
+<h3 mat-dialog-title>新增/编辑</h3>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formGroup">
+    <mat-form-field appearance="fill">
+      <mat-label>名称</mat-label>
+      <input type="text" matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>代码</mat-label>
+      <input type="text" matInput formControlName="code" />
+    </mat-form-field>
+
+    <div>
+      上级：
+    </div>
+    <div>
+      所属机构：
+      <app-org-selection (onSelected)="onSelected($event)" [multiple]="true" [selectedItems]="parentId"></app-org-selection>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="submit()" cdkFocusInitial color="primary">
+    确定
+  </button>
+  <button mat-button mat-dialog-close color="warn">取消</button>
+</mat-dialog-actions>

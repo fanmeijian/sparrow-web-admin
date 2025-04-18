@@ -1,0 +1,8 @@
+
+<button mat-raised-button [matMenuTriggerFor]="menu" color="primary">导出</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="export('PDF')" color="primary">导出pdf</button>
+  <button mat-menu-item (click)="export('WORD')" color="primary">导出word</button>
+  <button mat-menu-item (click)="export('CSV')" color="primary">导出csv</button>
+  <button mat-menu-item (click)="export('EXCEL')" color="primary">导出excel</button>
+</mat-menu>

@@ -1,0 +1,12 @@
+.spr-search-result{
+  margin: 10px;
+  padding: 10px;
+  background-color: #eee;
+}
+
+div{
+  word-break: break-all;
+}
+a{
+  cursor: pointer;
+}

@@ -1,0 +1,99 @@
+<div class="spr-toolbar-container">
+  <!-- <app-common-actions [c]="c"></app-common-actions> -->
+  <button
+    mat-raised-button
+    color="primary"
+    [routerLink]="['../rule-create']"
+    routerLinkActive="router-link-active"
+    [queryParams]="{ action: 'new' }"
+  >
+    新增
+  </button>
+</div>
+<div class="spr-table-container">
+  <mat-table [dataSource]="dataSource" class="spr-table">
+    <ng-container matColumnDef="seq">
+      <mat-header-cell *matHeaderCellDef>序号</mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ index + 1 }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stat">
+      <mat-header-cell *matHeaderCellDef>状态</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.stat }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>名称</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button
+          color="primary"
+          mat-button
+          [routerLink]="['../rule-create', element.id]"
+        >
+          {{ element.name }}
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef>描述</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>创建时间</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.createDate | date : "short" }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef>时间</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.createdDate | date : "short" }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            [routerLink]="['../prize', element.id]"
+            [queryParams]="{ action: 'edit' }"
+            routerLinkActive="router-link-active"
+          >
+            编辑
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: true"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>
+
+<mat-paginator
+  #paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="pageable.pageSize"
+  [length]="pageable.length"
+  [pageIndex]="pageable.pageIndex"
+  (page)="onPage($event)"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>

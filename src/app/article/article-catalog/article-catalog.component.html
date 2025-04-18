@@ -1,0 +1,31 @@
+<div class="spr-toolbar-container">
+  <button
+    class="button"
+    mat-raised-button
+    color="primary"
+    (click)="newCatalog()"
+  >
+    新增分类
+  </button>
+</div>
+<div class="left-tree-right-content-container">
+  <div>
+    <div
+      style="width: 100%; color: grey; text-align: center"
+      *ngIf="dataSource.data.length == 0"
+    >
+      尚无数据<br />
+    </div>
+    <div>
+      <app-dynamic-tree-view
+        [treeService]="articleCatalogTreeService"
+        [parentId]="'root'"
+        (onNodeClick)="onNodeClick($event)"
+      ></app-dynamic-tree-view>
+    </div>
+  </div>
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<div class="spr-toolbar-container">
+  <button class="button" mat-raised-button color="primary" (click)="new()">
+    新增
+  </button>
+</div>
+
+<div class="left-tree-right-content-container">
+  <div>
+    <div
+      style="width: 100%; color: grey; text-align: center"
+      *ngIf="dataSource.data.length == 0"
+    >
+      尚无数据<br />
+    </div>
+    <mat-tree
+      *ngIf="dataSource.data.length > 0"
+      [dataSource]="dataSource"
+      [treeControl]="treeControl"
+    >
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <span
+          [class]="
+            node.item.type === 'GROUP'
+              ? node.item.id === selectedItem?.id
+                ? 'tree-node-name-selected'
+                : 'tree-node-name'
+              : ''
+          "
+          [style]="node.item.type != 'GROUP' ? 'color:grey;' : ''"
+          (click)="onItemClick(node.item)"
+          >{{ node.item.name }}</span
+        >
+      </mat-tree-node>
+      <mat-tree-node
+        *matTreeNodeDef="let node; when: hasChild"
+        matTreeNodePadding
+      >
+        <button
+          mat-icon-button
+          [attr.aria-label]="'Toggle ' + node.item"
+          matTreeNodeToggle
+        >
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+
+        <span
+          [class]="
+            node.item.type === 'GROUP'
+              ? node.item.id === selectedItem?.id
+                ? 'tree-node-name-selected'
+                : 'tree-node-name'
+              : ''
+          "
+          [style]="node.item.type != 'GROUP' ? 'color:grey;' : ''"
+          (click)="onItemClick(node.item)"
+          >{{ node.item.name }} ({{ node.item.childCount }})</span
+        >
+        <mat-progress-bar
+          *ngIf="node.isLoading"
+          mode="indeterminate"
+          class="example-tree-progress-bar"
+        ></mat-progress-bar>
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+
+  <div>
+    <mat-card *ngIf="selectedItem">
+      <mat-card-subtitle
+        >{{ selectedItem?.name }} ({{ selectedItem?.code }})
+      </mat-card-subtitle>
+      <mat-card-content>
+        <div>
+          <mat-tab-group>
+            <mat-tab label="基本信息">
+              <div class="twocolumn-box">
+                <div>
+                  <span>名称:</span><span>{{ selectedItem?.name }}</span>
+                </div>
+                <div>
+                  <span>代码:</span><span>{{ selectedItem?.code }}</span>
+                </div>
+                <div>
+                  <span>类型:</span><span>{{ selectedItem?.type }}</span>
+                </div>
+                <div>
+                  <span>组织: </span>
+                  <span>
+                    <ng-container
+                      *ngFor="let item of selectedItem?.organizations"
+                      >{{ item.name }},</ng-container
+                    ></span
+                  >
+                </div>
+                <div>
+                  <span>上级: </span>
+                  <span>
+                    <ng-container *ngFor="let item of selectedItem?.parents"
+                      >{{ item.name }},</ng-container
+                    ></span
+                  >
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="edit(selectedItem)">
+          编辑
+        </button>
+        <!-- <button
+          mat-button
+          color="primary"
+          (click)="openPermissionDialog(selectedMenu)"
+        >
+          授权
+        </button> -->
+        <button
+          mat-button
+          color="warn"
+          (click)="delete(selectedItem)"
+          [disabled]="selectedItem?.childCount > 0"
+        >
+          删除
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

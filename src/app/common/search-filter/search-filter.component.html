@@ -1,0 +1,97 @@
+<div style="padding-bottom: 10px">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header> 过滤条件 ({{filters.length}})</mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+      <div style="align-items: center">
+        <mat-form-field appearance="fill">
+          <mat-label>操作逻辑</mat-label>
+          <mat-select [(ngModel)]="filterBean.type">
+            <mat-option value="AND"> 并且 AND </mat-option>
+            <mat-option value="OR"> 或者 OR </mat-option>
+            <mat-option value="NOT"> 非 NOT</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>属性名称</mat-label>
+          <mat-select [(ngModel)]="filterBean.name">
+            <mat-option *ngFor="let food of propertyNames" [value]="food.value">
+              {{ food.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>操作</mat-label>
+          <mat-select [(ngModel)]="filterBean.op">
+            <mat-option *ngFor="let food of operators" [value]="food.value">
+              {{ food.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>值</mat-label>
+          <input type="text" matInput [(ngModel)]="filterBean.value" />
+        </mat-form-field>
+        <button mat-button color="primary" (click)="addFilter(null)">
+          根条件
+        </button>
+      </div>
+      <mat-tree
+        [dataSource]="dataSource"
+        [treeControl]="treeControl"
+        class="example-tree"
+      >
+        <!-- This is the tree node template for leaf nodes -->
+        <!-- There is inline padding applied to this node using styles.
+        This padding value depends on the mat-icon-button width. -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+          <button mat-button color="warn" (click)="removeFilter(node)">
+            移除
+          </button>
+          <button mat-button color="primary" (click)="addFilter(node)">
+            子条件
+          </button>
+          {{ node.filterTreeBean.type }} {{ node.filterTreeBean.name }}
+          {{ node.filterTreeBean.op }} {{ node.filterTreeBean.value }}
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+          <div class="mat-tree-node">
+            <button
+              mat-icon-button
+              matTreeNodeToggle
+              [attr.aria-label]="'Toggle ' + node.filterTreeBean.name"
+            >
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{
+                  treeControl.isExpanded(node) ? "expand_more" : "chevron_right"
+                }}
+              </mat-icon>
+            </button>
+            <button mat-button color="warn" (click)="removeFilter(node)">
+              移除
+            </button>
+            <button mat-button color="primary" (click)="addFilter(node)">
+              子条件
+            </button>
+            {{ node.filterTreeBean.type }} {{ node.filterTreeBean.name }}
+            {{ node.filterTreeBean.op }} {{ node.filterTreeBean.value }}
+          </div>
+          <!-- There is inline padding applied to this div using styles.
+              This padding value depends on the mat-icon-button width.  -->
+          <div
+            [class.example-tree-invisible]="!treeControl.isExpanded(node)"
+            role="group"
+          >
+            <ng-container matTreeNodeOutlet></ng-container>
+          </div>
+        </mat-nested-tree-node>
+      </mat-tree>
+
+      <button mat-stroked-button color="primary" (click)="apply()">应用</button>
+    </ng-template>
+  </mat-expansion-panel>
+</div>
