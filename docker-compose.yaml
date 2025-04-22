@@ -1,0 +1,16 @@
+version: '3'
+services:
+  dengbo-admin:
+    build: .
+    ports:
+      - "8036:80"
+    environment:
+      - API_BASE_URL=http://localhost:8081/dengbo-service
+      - BPM_API=http://localhost:8091/dengbo-bpm
+      - REALM=dengbo
+      - CLIENT_ID=dengbo-admin
+      - KEYCLOAK_API_BASE_URL=https://keycloak.linkair-tech.cn
+      - COS_BUCKET=cos-1252583813
+      - COS_REGION=ap-guangzhou
+      - COS_PATH=upload/
+      - COS_DOMAIN=web.linkair-tech.cn

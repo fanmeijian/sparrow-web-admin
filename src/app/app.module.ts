@@ -28,7 +28,7 @@ import { RoleSelectionComponent } from "./role/role-selection/role-selection.com
 import { RolesComponent } from "./role/roles/roles.component";
 import { BASE_PATH as ORG_BASE_PATH } from '@sparrowmini/org-api';
 
-import { CommonModule } from "@angular/common";
+import { CommonModule, HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormioModule } from "@formio/angular";
 import { UploadFileModule } from "@sparrowmini/tx-upload-file";
@@ -161,7 +161,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -354,6 +354,8 @@ import { SparrowOrgComponent } from './sparrow-org.component';
       deps: [KeycloakService],
     },
     { provide: ORG_BASE_PATH, useValue: environment.apiBase },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
   bootstrap: [AppComponent]
 })
@@ -370,7 +372,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
         clientId: environment.keycloak.clientId,
       },
       initOptions: {
-        onLoad: 'login-required',
+        onLoad: environment.keycloak.login
       },
       bearerExcludedUrls: ['/assets'],
     }).then((res) => {
