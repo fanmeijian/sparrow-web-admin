@@ -1,7 +1,7 @@
 version: '3'
 services:
   dengbo-admin:
-    build: .
+    image: youweisoft/sparrow-web-admin:1.0
     ports:
       - "8036:80"
     environment:
