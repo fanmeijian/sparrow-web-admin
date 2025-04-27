@@ -2,7 +2,7 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 import {KeycloakOnLoad, KeycloakLoginOptions} from 'keycloak-js'
-const API_BASE_URL='http://localhost:8100/toupiao-service'
+const API_BASE_URL='http://localhost:8081/dengbo-service'
 const login:KeycloakOnLoad='login-required'
 export const environment = {
   production: false,
@@ -10,8 +10,8 @@ export const environment = {
   bpmApi: `http://localhost:8091/dengbo-bpm`,
   keycloak: {
     authServerUrl: 'https://keycloak.linkair-tech.cn',
-    realm: 'liyun-prd',
-    clientId: 'sparrow-web-admin',
+    realm: 'dengbo',
+    clientId: 'dengbo-admin',
     login: login
   },
   cos: {

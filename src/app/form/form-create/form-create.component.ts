@@ -14,6 +14,7 @@ import Prism from 'prismjs';
 import { FormioRefreshValue } from '@formio/angular';
 import { Formio } from 'formiojs'
 import { FormService } from '@sparrowmini/org-api';
+import { KeycloakService } from 'keycloak-angular';
 @Component({
   selector: 'app-form-create',
   templateUrl: './form-create.component.html',
@@ -40,9 +41,40 @@ export class FormCreateComponent implements OnInit {
     }
   }
   formJson: any;
-  formOptions = {
+  formOptions:any = {
     // fileService: this.formioFileService,
+    request: (type, url, data, options) => {
+      return this.keycloakService.getToken().then(
+        token => {
+          console.log('222')
+          return Formio.makeStaticRequest( url,type, data, {
+            ...options,
+            headers: {
+              ...(options?.headers || {}),
+              'authorization': 'Bearer ' + token
+            }
+          });
+        })
+    }
   }
+
+  /**
+   * use in the client
+   * // This is executed by Form.io to fetch data for the Select dropdown
+values = Promise.resolve(
+  options.request('POST','http://localhost:8081/dengbo-service/materials/filter?page=0&size=20',[],
+  {
+    headers: {
+    'Content-Type': 'application/json'
+  }}).then(res=>res.content.map(m=>{
+    return {
+      label: m.name,
+      value: m.code
+    }
+  }))
+  );
+
+   */
   formGroup: FormGroup = this.formBuilder.group({
     name: [null, Validators.required],
     code: [null, Validators.required],
@@ -63,6 +95,7 @@ export class FormCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private router: Router,
+    private keycloakService: KeycloakService,
     // private formioFileService: CosFileService,
 
   ) {

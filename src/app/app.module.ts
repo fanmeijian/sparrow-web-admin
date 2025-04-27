@@ -30,7 +30,7 @@ import { BASE_PATH as ORG_BASE_PATH } from '@sparrowmini/org-api';
 
 import { CommonModule, HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { FormioModule } from "@formio/angular";
+import { Formio, FormioModule } from "@formio/angular";
 import { UploadFileModule } from "@sparrowmini/tx-upload-file";
 import { AngularMaterialModule } from "./angular-material.module";
 import { ArticleCatalogComponent } from './article/article-catalog/article-catalog.component';
@@ -121,7 +121,7 @@ import { ForumFormComponent } from './forum/forum-form/forum-form.component';
 import { DynamicTreeViewComponent } from './common/dynamic-tree-view/dynamic-tree-view.component';
 import { TreeViewComponent } from './common/tree-view/tree-view.component';
 import { DictFormComponent } from "./dict/dict-form/dict-form.component";
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -171,6 +171,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { environment } from 'src/environments/environment';
 import { SparrowOrgComponent } from './sparrow-org.component';
+import { FormioTokenInterceptor } from 'src/formio-token-interceptor';
 
 @NgModule({
   declarations: [
@@ -356,6 +357,11 @@ import { SparrowOrgComponent } from './sparrow-org.component';
     { provide: ORG_BASE_PATH, useValue: environment.apiBase },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FormioTokenInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })
@@ -376,6 +382,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
       bearerExcludedUrls: ['/assets'],
     }).then((res) => {
+      // keycloak.getToken().then(token=>{
+      //   Formio.setToken(token);  // Set the token globally
+      //   console.log(Formio.getToken())
+      // })
       if (res) {
         keycloak.loadUserProfile().then((user) => {
           localStorage.setItem('userInfo', JSON.stringify(user));

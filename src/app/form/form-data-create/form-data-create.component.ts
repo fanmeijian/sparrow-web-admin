@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BASE_PATH, FormService } from '@sparrowmini/org-api';
 import { HttpClient } from '@angular/common/http';
 import { CosFileService } from '../../services/cos-file.service';
+import { KeycloakService } from 'keycloak-angular';
+import { Formio } from 'formiojs';
 
 @Component({
   selector: 'app-form-data-create',
@@ -15,6 +17,23 @@ export class FormDataCreateComponent implements OnInit {
 
   formOptions = {
     fileService: this.formioFileService,
+    request: (type, url, method, data, options) => {
+      return  new Promise(resolve=>{
+        // this.keycloakService.getToken().then(
+        //   token => {
+        //     return Formio.makeRequest(type, url, method, data, {
+        //       ...options,
+        //       headers: {
+        //         ...(options?.headers || {}),
+        //         'x-jwt-token': token
+        //       }
+        //     });
+        //   })
+        console.log(type, url) 
+        return url;
+      })
+
+    }
   }
 
   constructor(
@@ -23,9 +42,12 @@ export class FormDataCreateComponent implements OnInit {
     private formioFileService: CosFileService,
     private http: HttpClient,
     @Optional() @Inject(BASE_PATH) private basePath: string,
+    private keycloakService: KeycloakService,
   ) { }
 
   ngOnInit(): void {
+
+    
     this.activatedRoute.queryParams.subscribe((params:any)=>{
       if(params.id){
         this.formService.formData(params.id).subscribe(res=>{
